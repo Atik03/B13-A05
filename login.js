@@ -6,6 +6,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
 
   if (user === "admin" && pass === "admin123") {
     alert("Login Successful! Redirecting to Dashboard...");
+    window.location.assign("dashboard.html");
   } else {
     alert("Invalid Username or Password. Please try again.");
   }
