@@ -267,6 +267,9 @@ document.getElementById("allBtn").onclick = function () {
   setActive(this);
   loadSpinner(true);
 
+  const container = document.getElementById("noDataContainer");
+  container.classList.add("hidden");
+
   const issueCountElement = document.querySelector(".issuCount");
   issueCountElement.innerText = allIssues.length + " Issues";
 
@@ -276,6 +279,8 @@ document.getElementById("allBtn").onclick = function () {
 document.getElementById("openBtn").onclick = function () {
   setActive(this);
   loadSpinner(true);
+  const container = document.getElementById("noDataContainer");
+  container.classList.add("hidden");
 
   const openIssues = allIssues.filter((issue) => issue.status === "open");
 
@@ -288,6 +293,8 @@ document.getElementById("openBtn").onclick = function () {
 document.getElementById("closedBtn").onclick = function () {
   setActive(this);
   loadSpinner(true);
+  const container = document.getElementById("noDataContainer");
+  container.classList.add("hidden");
 
   const closedIssues = allIssues.filter((issue) => issue.status === "closed");
 
