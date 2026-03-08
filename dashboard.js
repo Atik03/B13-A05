@@ -253,6 +253,16 @@ function setActive(btn) {
   btn.classList.add("btn-primary");
 }
 
+function setActiveColor(btn) {
+  if (btn == false) {
+    document.querySelectorAll(".btnColor").forEach((b) => {
+      b.classList.remove("btn-primary");
+
+      b.classList.add("btn-outline");
+    });
+  }
+}
+
 document.getElementById("allBtn").onclick = function () {
   setActive(this);
   loadSpinner(true);
@@ -288,3 +298,61 @@ document.getElementById("closedBtn").onclick = function () {
 };
 
 loadIssues();
+
+// search functionality
+document.getElementById("btnSearch").addEventListener("click", () => {
+  const inputValue = document.getElementById("inputSearch");
+  const searchValue = inputValue.value.trim().toLowerCase();
+
+  if (searchValue === "") {
+    alert("Please enter something to search");
+    return;
+  }
+
+  setActiveColor(false);
+
+  loadSpinner(true);
+
+  fetch(API)
+    .then((res) => res.json())
+    .then((data) => {
+      const issues = data.data;
+
+      const filteredIssues = issues.filter((issue) => {
+        const searchStr = searchValue.toLowerCase();
+
+        return Object.values(issue).some((val) => {
+          if (Array.isArray(val)) {
+            return val.join(" ").toLowerCase().includes(searchStr);
+          } else if (typeof val === "string") {
+            return val.toLowerCase().includes(searchStr);
+          } else {
+            return false;
+          }
+        });
+      });
+
+      const issueCountElement = document.querySelector(".issuCount");
+      issueCountElement.innerText = filteredIssues.length + " Issues";
+
+      if (filteredIssues.length === 0) {
+        const container = document.getElementById("noDataContainer");
+        container.classList.remove("hidden");
+        container.innerHTML = `
+          <div class="w-full h-[300px] flex justify-center items-center">
+            <div class="w-full h-40 flex justify-center items-center">
+              <h1 class="text-xl font-bold text-gray-600 text-center">
+                No issue found with this keyword!
+              </h1>
+            </div>
+          </div>
+        `;
+      } else {
+        const container = document.getElementById("noDataContainer");
+        container.classList.add("hidden");
+      }
+
+      displayIssues(filteredIssues);
+    });
+  inputValue.value = "";
+});
