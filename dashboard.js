@@ -35,7 +35,7 @@ function displayIssues(issues) {
 
 <span class="">
 
-${issue.status === "open" ? `<img src="./assets/open-Status.png" alt="Open">` : '<img src="./assets/Closed-Status.png" alt="Closed">'}
+${issue.status === "open" ? `<img src="./assets/Open-Status.png" alt="Open">` : '<img src="./assets/Closed-Status.png" alt="Closed">'}
 
 </span>
 
